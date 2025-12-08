@@ -100,18 +100,19 @@ const getUserService = async () => {
 };
 
 const transporter = createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  secure: false, // true for 465, false for other ports
+  host: process.env.MAIL_HOST,
+  port: process.env.MAIL_PORT,
+  secure: false,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD,
   },
 });
 
 const forgotPasswordService = async (email) => {
   try {
     const user = await User.findOne({ where: { email } });
+    console.log(user);
 
     if (!user) {
       return { EC: 0, EM: "Nếu email tồn tại, một link reset đã được gửi." };
@@ -130,7 +131,7 @@ const forgotPasswordService = async (email) => {
     const resetURL = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
     const mailOptions = {
-      from: `"Support" <${process.env.SMTP_USER}>`,
+      from: `"Support" <${process.env.MAIL_USER}>`,
       to: user.email,
       subject: "Yêu cầu đặt lại mật khẩu",
       html: `<p>Bạn nhận được email này vì bạn (hoặc ai đó) đã yêu cầu đặt lại mật khẩu.</p>

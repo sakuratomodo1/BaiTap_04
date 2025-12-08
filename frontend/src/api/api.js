@@ -17,6 +17,15 @@ export const registerUser = (name, email, password) => {
 };
 
 /**
+ * Gọi API đăng nhập
+ * @param {string} email
+ * @param {string} password
+ */
+export const loginUser = (email, password) => {
+  return apiClient.post("/login", { email, password });
+};
+
+/**
  * Gọi API quên mật khẩu
  * @param {string} email
  */
