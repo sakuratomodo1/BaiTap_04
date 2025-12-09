@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const {sequelize, connection} = require('./config/dbConfig');
+const {sequelize, connection} = require('./config/database');
 const apiRoutes = require('./routes/api');
 const app = express();
 const port = process.env.PORT || 8888;
@@ -9,8 +9,6 @@ const port = process.env.PORT || 8888;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
-// Router
 app.use('/v1/api/', apiRoutes);
 
 (async () => {

@@ -7,6 +7,15 @@ const apiClient = axios.create({
 });
 
 /**
+ * Gọi API đăng nhập
+ * @param {string} email - Email hoặc tên đăng nhập
+ * @param {string} password - Mật khẩu
+ */
+export const loginUser = (email, password) => {
+  return apiClient.post("/login", { email, password });
+};
+
+/**
  * Gọi API đăng ký
  * @param {string} name
  * @param {string} email
@@ -14,15 +23,6 @@ const apiClient = axios.create({
  */
 export const registerUser = (name, email, password) => {
   return apiClient.post("/register", { name, email, password });
-};
-
-/**
- * Gọi API đăng nhập
- * @param {string} email
- * @param {string} password
- */
-export const loginUser = (email, password) => {
-  return apiClient.post("/login", { email, password });
 };
 
 /**
@@ -39,6 +39,5 @@ export const forgotPassword = (email) => {
  * @param {string} password
  */
 export const resetPassword = (token, password) => {
-  // Tên thuộc tính phải khớp với req.body bên backend
   return apiClient.post("/reset-password", { token, password });
 };

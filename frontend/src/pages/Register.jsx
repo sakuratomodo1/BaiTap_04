@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { registerUser } from "../api/api";
+import { useState } from "react";
+import { registerUser } from "../services/api";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
@@ -20,9 +20,8 @@ const Register = () => {
     try {
       const response = await registerUser(name, email, password);
       const data = response.data;
-
       if (data.EC === 0) {
-        toast.success("Đăng ký thành công! Vui lòng đăng nhập.");
+        toast.success("Đăng ký thành công!");
         setName("");
         setEmail("");
         setPassword("");
@@ -38,98 +37,78 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-4">
-      <div className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all hover:shadow-xl">
-        <div className="text-center">
-          <h2 className="mb-2 text-3xl font-extrabold text-gray-800">
-            Tạo tài khoản
-          </h2>
-          <p className="mb-8 text-sm text-gray-500">
-            Bắt đầu hành trình của bạn ngay hôm nay
+    <div className="flex min-h-screen w-full bg-white">
+      {/* Cột trái: Hình ảnh */}
+      <div className="hidden lg:flex w-1/2 items-center justify-center bg-gradient-to-br from-purple-700 to-pink-600 p-12 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2629&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+        <div className="relative z-10 max-w-md">
+          <h1 className="mb-6 text-5xl font-bold leading-tight">Tham gia cùng chúng tôi.</h1>
+          <p className="text-lg text-purple-100">
+            Tạo tài khoản để khám phá hàng ngàn tính năng hấp dẫn chỉ dành riêng cho thành viên.
           </p>
         </div>
+        <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-pink-500 opacity-30 blur-3xl transform translate-y-1/2 translate-x-1/2"></div>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Input Họ Tên */}
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <input
-              type="text"
-              placeholder="Họ và tên"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-4 text-gray-900 outline-none transition-colors focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200"
-              required
-            />
+      {/* Cột phải: Form Đăng ký */}
+      <div className="flex w-full lg:w-1/2 items-center justify-center p-8 bg-gray-50">
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center">
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Tạo tài khoản</h2>
+            <p className="mt-2 text-sm text-gray-600">Hoàn toàn miễn phí và chỉ mất 1 phút</p>
           </div>
 
-          {/* Input Email */}
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-              </svg>
+          <form className="mt-8 space-y-5" onSubmit={handleSubmit} noValidate>
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Họ và Tên</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="block w-full rounded-lg border border-gray-300 py-3 px-4 text-gray-900 placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-purple-500 sm:text-sm transition-all"
+                placeholder="Nguyễn Văn A"
+                required
+              />
             </div>
-            <input
-              type="email"
-              placeholder="Email của bạn"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-4 text-gray-900 outline-none transition-colors focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200"
-              required
-            />
-          </div>
-
-          {/* Input Password */}
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-              </svg>
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="block w-full rounded-lg border border-gray-300 py-3 px-4 text-gray-900 placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-purple-500 sm:text-sm transition-all"
+                placeholder="name@example.com"
+                required
+              />
             </div>
-            <input
-              type="password"
-              placeholder="Mật khẩu"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-4 text-gray-900 outline-none transition-colors focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200"
-              required
-            />
-          </div>
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Mật khẩu</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-lg border border-gray-300 py-3 px-4 text-gray-900 placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-purple-500 sm:text-sm transition-all"
+                placeholder="Ít nhất 6 ký tự"
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 py-3 font-bold text-white shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="h-5 w-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Đang xử lý...
-              </span>
-            ) : (
-              "Đăng Ký Ngay"
-            )}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full rounded-lg bg-purple-600 px-4 py-3 text-sm font-bold text-white transition-all hover:bg-purple-700 hover:shadow-lg disabled:opacity-70"
+            >
+              {isLoading ? "Đang xử lý..." : "Đăng Ký Ngay"}
+            </button>
+          </form>
 
-        <p className="mt-8 text-center text-sm text-gray-600">
-          Bạn đã có tài khoản?{" "}
-          <Link
-            to="/login"
-            className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline"
-          >
-            Đăng nhập tại đây
-          </Link>
-        </p>
+          <p className="text-center text-sm text-gray-600">
+            Đã có tài khoản?{" "}
+            <Link to="/login" className="font-bold text-purple-600 hover:text-purple-500 hover:underline">
+              Đăng nhập tại đây
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
