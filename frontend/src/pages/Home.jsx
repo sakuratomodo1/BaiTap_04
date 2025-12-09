@@ -97,7 +97,7 @@ const Home = () => {
           <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl md:text-7xl">
             <span className="block xl:inline">Chào mừng đến với</span>{' '}
             <span className="block text-indigo-600 xl:inline bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-              MyShop
+              Big Boss E-commerce
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-xl text-gray-500">
